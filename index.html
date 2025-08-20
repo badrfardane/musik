@@ -26,21 +26,21 @@
 
         #keywords {
             padding: 20px; /* Agrandi */
-            margin-top: 30px;
+            margin: 40px 0;
             background-color: #333333;
             color: #ffffff;
             border: none;
-            width: 50%;
+            width: 70%;
             font-size: 2em; /* Agrandi */
         }
 
         #searchButton {
-            padding: 5px; /* Agrandi */
+            padding: 20px; /* Agrandi */
             background-color: #FF0000;
             color: #ffffff;
             border: none;
             cursor: pointer;
-            width: 20%; /* Agrandi */
+            width: 25%; /* Agrandi */
             font-size: 2em; /* Agrandi */
         }
 
@@ -107,12 +107,13 @@
         }
 
         #playlistLinks {
-            margin: 20px 0; /* Agrandi */
+            margin: 40px 0; /* Agrandi */
             text-align: center;
         }
         
         #playlistLinks a {
             display: inline;        /* Passage en affichage en ligne */
+            font-size: 2em;         /* Agrandi */
             margin: 0 10px;         /* Espacement horizontal */
             color: #ff6347;
             text-decoration: none;  /* Optionnel : enlever le soulignement */
@@ -125,159 +126,12 @@
         #playlistLinks a:not(:last-child)::after {
             content: " |";        /* Séparateur inséré automatiquement sauf après le dernier lien */
         }
-
-        /* Search Filters & Sorting Styles */
-        #filtersContainer {
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-radius: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding-left: 2%;
-        }
-
-        .filter-group label {
-            font-size: 1.5em;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .filter-group select {
-            padding: 10px 15px;
-            font-size: 1.3em;
-            background-color: #333333;
-            color: #ffffff;
-            border: 2px solid #555555;
-            border-radius: 5px;
-            cursor: pointer;
-            min-width: 150px;
-        }
-
-        .filter-group select:hover {
-            border-color: #FF0000;
-        }
-
-        .filter-group select:focus {
-            outline: none;
-            border-color: #FF0000;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-        }
-
-        #clearFiltersButton {
-            padding: 15px 25px;
-            background-color: #666666;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.3em;
-            transition: background-color 0.3s;
-        }
-
-        #clearFiltersButton:hover {
-            background-color: #888888;
-        }
-
-        /* Picture-in-Picture Styles */
-        #pipButton {
-            position: absolute;
-            top: 60px;
-            right: 10px;
-            background-color: #FF0000;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 1.5em;
-            z-index: 1001;
-        }
-
-        #pipButton:hover {
-            background-color: #cc0000;
-        }
-
-        .pip-video {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 320px;
-            height: 180px;
-            z-index: 1002;
-            border: 2px solid #FF0000;
-            border-radius: 10px;
-            background: #000;
-        }
-
-        .pip-controls {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .pip-controls button {
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 5px 8px;
-            cursor: pointer;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
     <div id="container">
         <input type="text" id="keywords" placeholder="Search videos" onkeydown="if (event.keyCode === 13) searchVideos()">
-
-        <!-- Search Filters & Sorting Controls -->
-        <div id="filtersContainer">
-            <div class="filter-group">
-                <select id="durationFilter" onchange="applyFilters()">
-                    <option value="">Any Duration</option>
-                    <option value="short">Under 4 minutes</option>
-                    <option value="medium">4-20 minutes</option>
-                    <option value="long">Over 20 minutes</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <select id="uploadDateFilter" onchange="applyFilters()">
-                    <option value="">Any Time</option>
-                    <option value="hour">Last Hour</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                    <option value="year">This Year</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <select id="sortBy" onchange="applyFilters()">
-                    <option value="relevance">Relevance</option>
-                    <option value="date">Upload Date</option>
-                    <option value="viewCount">View Count</option>
-                    <option value="rating">Rating</option>
-                    <option value="title">Title</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <button id="clearFiltersButton" onclick="clearFilters()">Clear Filters</button>
-            </div>
-        </div>
-        
+        <br>
         <button id="searchButton" onclick="searchVideos()">Search</button>
         
         <div id="playlistLinks">
@@ -309,52 +163,35 @@
     <script>
         const apiKey = 'AIzaSyB5YOIFgs5c7VUutyDofVYBzXTwyPbqoYo';
         let nextPageToken = '';
-        let currentSearchKeywords = '';
-        let allVideos = []; // Store all fetched videos for client-side filtering
-        let isPipMode = false;
 
         async function searchVideos() {
             const keywords = document.getElementById('keywords').value.trim();
             if (!keywords) return;
 
-            currentSearchKeywords = keywords;
             document.getElementById('videosList').innerHTML = '';
             nextPageToken = '';
-            allVideos = [];
 
             fetchVideos(keywords);
         }
 
         async function fetchVideos(keywords) {
-            // Get filter values
-            const duration = document.getElementById('durationFilter').value;
-            const uploadDate = document.getElementById('uploadDateFilter').value;
-            const sortBy = document.getElementById('sortBy').value;
-
-            // Build API URL with filters
-            let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=10&q=${encodeURIComponent(keywords)}&pageToken=${nextPageToken}&key=${apiKey}`;
-            
-            if (duration) url += `&videoDuration=${duration}`;
-            if (uploadDate) url += `&publishedAfter=${getDateFilter(uploadDate)}`;
-            if (sortBy) url += `&order=${sortBy}`;
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&q=${encodeURIComponent(keywords)}&pageToken=${nextPageToken}&key=${apiKey}`;
             
             try {
                 const response = await fetch(url);
                 const data = await response.json();
 
-                if (data.items && data.items.length > 0) {
-                    const videoIds = data.items.map(video => video.id.videoId).join(',');
-                    const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${apiKey}`;
+                const videoIds = data.items.map(video => video.id.videoId).join(',');
+                if (videoIds) {
+                    const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoIds}&key=${apiKey}`;
                     const statsResponse = await fetch(statsUrl);
                     const statsData = await statsResponse.json();
 
                     const videosWithStats = data.items.map((video, index) => {
                         video.statistics = statsData.items[index]?.statistics || {};
-                        video.contentDetails = statsData.items[index]?.contentDetails || {};
                         return video;
                     });
 
-                    allVideos = allVideos.concat(videosWithStats);
                     renderVideos(videosWithStats);
                 }
 
@@ -362,44 +199,6 @@
                 document.getElementById('showMoreButton').style.display = nextPageToken ? 'block' : 'none';
             } catch (error) {
                 console.error('Error fetching videos:', error);
-                alert('Error fetching videos. Please try again.');
-            }
-        }
-
-        function getDateFilter(period) {
-            const now = new Date();
-            switch(period) {
-                case 'hour':
-                    return new Date(now.getTime() - 60 * 60 * 1000).toISOString();
-                case 'today':
-                    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
-                case 'week':
-                    return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-                case 'month':
-                    return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-                case 'year':
-                    return new Date(now.getFullYear(), 0, 1).toISOString();
-                default:
-                    return '';
-            }
-        }
-
-        function applyFilters() {
-            if (currentSearchKeywords) {
-                document.getElementById('videosList').innerHTML = '';
-                nextPageToken = '';
-                allVideos = [];
-                fetchVideos(currentSearchKeywords);
-            }
-        }
-
-        function clearFilters() {
-            document.getElementById('durationFilter').value = '';
-            document.getElementById('uploadDateFilter').value = '';
-            document.getElementById('sortBy').value = 'relevance';
-            
-            if (currentSearchKeywords) {
-                applyFilters();
             }
         }
 
@@ -410,7 +209,6 @@
                 const { title, thumbnails, publishedAt } = video.snippet;
                 const videoId = video.id.videoId;
                 const viewCount = video.statistics.viewCount || 'N/A';
-                const duration = video.contentDetails.duration || '';
                 const li = document.createElement('li');
 
                 li.innerHTML = `
@@ -420,42 +218,23 @@
                     <div>
                         <p style="font-size: 2em;">${title}</p>
                         <small style="font-size: 1.5em;">Published on: ${new Date(publishedAt).toLocaleDateString()}</small><br>
-                        <small style="font-size: 1.5em;">Views: ${parseInt(viewCount).toLocaleString()}</small><br>
-                        <small style="font-size: 1.3em;">Duration: ${formatDuration(duration)}</small>
+                        <small style="font-size: 1.5em;">Views: ${parseInt(viewCount).toLocaleString()}</small>
                     </div>
                 `;
                 videosList.appendChild(li);
             });
         }
 
-        function formatDuration(duration) {
-            if (!duration) return 'Unknown';
-            
-            const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-            if (!match) return 'Unknown';
-            
-            const hours = (match[1] || '').replace('H', '');
-            const minutes = (match[2] || '').replace('M', '');
-            const seconds = (match[3] || '').replace('S', '');
-            
-            let result = '';
-            if (hours) result += hours + ':';
-            result += (minutes || '0').padStart(2, '0') + ':';
-            result += (seconds || '0').padStart(2, '0');
-            
-            return result;
-        }
-
         function playVideo(videoId) {
             const player = document.getElementById('player');
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
             document.getElementById('videoPlayer').style.display = 'block';
         }
 
         function playPlaylist(playlistId) {
             const player = document.getElementById('player');
-            player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1&enablejsapi=1`;
+            player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1`;
 
             document.getElementById('videoPlayer').style.display = 'block';
         }
@@ -464,120 +243,12 @@
             const player = document.getElementById('player');
             player.src = '';
             document.getElementById('videoPlayer').style.display = 'none';
-            
-            // Close PiP if active
-            if (isPipMode) {
-                closePictureInPicture();
-            }
-        }
-
-        function togglePictureInPicture() {
-            if (isPipMode) {
-                closePictureInPicture();
-            } else {
-                openPictureInPicture();
-            }
-        }
-
-        function openPictureInPicture() {
-            const player = document.getElementById('player');
-            const currentSrc = player.src;
-            
-            if (!currentSrc) return;
-            
-            // Create PiP container
-            const pipContainer = document.createElement('div');
-            pipContainer.id = 'pipContainer';
-            pipContainer.className = 'pip-video';
-            
-            // Create PiP iframe
-            const pipPlayer = document.createElement('iframe');
-            pipPlayer.id = 'pipPlayer';
-            pipPlayer.src = currentSrc;
-            pipPlayer.style.width = '100%';
-            pipPlayer.style.height = '100%';
-            pipPlayer.style.border = 'none';
-            pipPlayer.allow = 'autoplay';
-            
-            // Create PiP controls
-            const pipControls = document.createElement('div');
-            pipControls.className = 'pip-controls';
-            
-            const expandButton = document.createElement('button');
-            expandButton.textContent = '⛶';
-            expandButton.title = 'Expand';
-            expandButton.onclick = () => {
-                closePictureInPicture();
-                document.getElementById('videoPlayer').style.display = 'block';
-            };
-            
-            const closeButton = document.createElement('button');
-            closeButton.textContent = '✖';
-            closeButton.title = 'Close';
-            closeButton.onclick = closePictureInPicture;
-            
-            pipControls.appendChild(expandButton);
-            pipControls.appendChild(closeButton);
-            
-            pipContainer.appendChild(pipPlayer);
-            pipContainer.appendChild(pipControls);
-            
-            document.body.appendChild(pipContainer);
-            
-            // Hide main player
-            document.getElementById('videoPlayer').style.display = 'none';
-            
-            isPipMode = true;
-            
-            // Make PiP draggable
-            makeDraggable(pipContainer);
-        }
-
-        function closePictureInPicture() {
-            const pipContainer = document.getElementById('pipContainer');
-            if (pipContainer) {
-                pipContainer.remove();
-            }
-            isPipMode = false;
-        }
-
-        function makeDraggable(element) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            
-            element.onmousedown = dragMouseDown;
-            
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-            
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-                element.style.bottom = 'auto';
-                element.style.right = 'auto';
-            }
-            
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
         }
 
         function showMoreResults() {
-            if (currentSearchKeywords) fetchVideos(currentSearchKeywords);
+            const keywords = document.getElementById('keywords').value.trim();
+            if (keywords) fetchVideos(keywords);
         }
     </script>
 </body>
 </html>
-
