@@ -129,7 +129,7 @@
 
         /* Search Filters & Sorting Styles */
         #filtersContainer {
-            margin: 40px 0;
+            margin: 20px 0;
             padding: 20px;
             background-color: #1e1e1e;
             border-radius: 10px;
@@ -145,6 +145,7 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            padding-left: 2%;
         }
 
         .filter-group label {
@@ -248,7 +249,6 @@
         <!-- Search Filters & Sorting Controls -->
         <div id="filtersContainer">
             <div class="filter-group">
-                <label for="durationFilter">Duration</label>
                 <select id="durationFilter" onchange="applyFilters()">
                     <option value="">Any Duration</option>
                     <option value="short">Under 4 minutes</option>
@@ -258,7 +258,6 @@
             </div>
             
             <div class="filter-group">
-                <label for="uploadDateFilter">Upload Date</label>
                 <select id="uploadDateFilter" onchange="applyFilters()">
                     <option value="">Any Time</option>
                     <option value="hour">Last Hour</option>
@@ -270,7 +269,6 @@
             </div>
             
             <div class="filter-group">
-                <label for="sortBy">Sort By</label>
                 <select id="sortBy" onchange="applyFilters()">
                     <option value="relevance">Relevance</option>
                     <option value="date">Upload Date</option>
@@ -279,10 +277,9 @@
                     <option value="title">Title</option>
                 </select>
             </div>
-            </p>
-                <button id="clearFiltersButton" onclick="clearFilters()">Clear Filters</button>
-            </p>
+            <button id="clearFiltersButton" onclick="clearFilters()">Clear Filters</button>
         </div>
+        
         
         <div id="playlistLinks">
             <div>
