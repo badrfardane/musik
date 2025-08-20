@@ -243,9 +243,7 @@
 <body>
     <div id="container">
         <input type="text" id="keywords" placeholder="Search videos" onkeydown="if (event.keyCode === 13) searchVideos()">
-        <br>
-        <button id="searchButton" onclick="searchVideos()">Search</button>
-        
+
         <!-- Search Filters & Sorting Controls -->
         <div id="filtersContainer">
             <div class="filter-group">
@@ -280,6 +278,8 @@
             <button id="clearFiltersButton" onclick="clearFilters()">Clear Filters</button>
         </div>
         
+        <br>
+        <button id="searchButton" onclick="searchVideos()">Search</button>
         
         <div id="playlistLinks">
             <div>
